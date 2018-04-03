@@ -32,6 +32,9 @@ func main() {
 			os.Exit(1)
 		}
 		definedWord := dictionary.Define(*listTextPtr)
-		fmt.Printf("word is: %s\n", definedWord)
+		fmt.Printf("Definitions are: \n")
+		for i, elem := range definedWord.Definitions {
+			fmt.Printf("%v: %s\n", i+1, elem.Definition)
+		}
 	}
 }
