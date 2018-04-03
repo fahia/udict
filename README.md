@@ -1,2 +1,2 @@
 # udict
-Urban dictionary from your command line
+Urban Dictionary from your command line
