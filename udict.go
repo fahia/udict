@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	color "github.com/fatih/color"
 	"os"
+	"strings"
 	"udict/dictionary"
 )
 
@@ -13,8 +14,7 @@ func main() {
 	listTextPtr := defineCommand.String("word", "", "Word to define. (Required)")
 
 	if len(os.Args) < 2 {
-		fmt.Println("error: word subcommand is required")
-		defineCommand.PrintDefaults()
+		color.Red("error: missing the subcommand define")
 		os.Exit(1)
 	}
 
@@ -22,7 +22,7 @@ func main() {
 	case "define":
 		defineCommand.Parse(os.Args[2:])
 	default:
-		flag.PrintDefaults()
+		color.Red("error: unknown subcommand")
 		os.Exit(1)
 	}
 
@@ -32,9 +32,12 @@ func main() {
 			os.Exit(1)
 		}
 		definedWord := dictionary.Define(*listTextPtr)
-		fmt.Printf("Definitions are: \n")
-		for i, elem := range definedWord.Definitions {
-			fmt.Printf("%v: %s\n", i+1, elem.Definition)
+		top5Defintions := definedWord.Definitions
+		color.Yellow("Definition(s) are: \n")
+		for i, elem := range top5Defintions {
+			def := strings.Replace(elem.Definition, "[", "", -1)
+			def = strings.Replace(def, "]", "", -1)
+			color.Cyan("%v: %s\n\n", i+1, def)
 		}
 	}
 }
